@@ -1,0 +1,92 @@
+<script>
+    var drive_pid_ids, drive_pid_vals;
+    var vision_pid_ids, vision_pid_vals;
+
+    function initDCU() {
+        drive_pid_ids = ['l_f', 'l_mp_p', 'l_mp_i', 'l_mp_d',
+                   'r_f', 'r_mp_p', 'r_mp_i', 'r_mp_d'];
+        drive_pid_vals =  [-1, -1, -1, -1, -1, -1, -1, -1];
+
+        vision_pid_ids = ['vision_p', 'vision_i', 'vision_d'];
+        vision_pid_vals =  [-1, -1, -1];
+    }
+
+    function updateDCU() {
+        updateDrivePID(json);
+        updateVisionPID(json);
+
+        setNumber('wheel_circumference', 2);
+
+        setNumber('left_max_speed', 0);
+        setNumber('right_max_speed', 0);
+
+        setNumber('left_scalar', 3);
+        setNumber('right_scalar', 3);
+
+        // setNumber('avg_wb', 2);
+        // setNumber('prev_wb', 1);
+
+        // setNumber('avg_w', 2);
+        // setNumber('avg_ffpmL', 6);
+        // setNumber('avg_ffpmR', 6);
+    }
+
+    function updateDrivePID(json) {
+        for (var i = 0; i < drive_pid_ids.length; i++) {
+            if (drive_pid_vals[i] != json[drive_pid_ids[i]]) {
+                drive_pid_vals[i] = json[drive_pid_ids[i]];
+                
+                getElement(drive_pid_ids[i]).value = Number(drive_pid_vals[i]).toFixed(4);
+            }
+        }
+    }
+    function pushDrivePID() {
+        sendNum('drivePID', getInputDrivePID());
+    }
+    function getInputDrivePID() {
+        var data = "";
+
+        for (var i = 0; i < drive_pid_ids.length; i++) {
+            data += getElement(drive_pid_ids[i]).value;
+
+            if (i != drive_pid_ids.length - 1) {
+                data += ',';
+            }
+        }
+
+        return data;
+    }
+
+    function updateVisionPID(json) {
+        for (var i = 0; i < vision_pid_ids.length; i++) {
+            if (vision_pid_vals[i] != json[vision_pid_ids[i]]) {
+                vision_pid_vals[i] = json[vision_pid_ids[i]];
+                
+                getElement(vision_pid_ids[i]).value = Number(vision_pid_vals[i]).toFixed(4);
+            }
+        }
+    }
+    function pushVisionPID() {
+        sendNum('visionPID', getInputVisionPID());
+    }
+    function getInputDrivePID() {
+        var data = "";
+
+        for (var i = 0; i < vision_pid_ids.length; i++) {
+            data += getElement(vision_pid_ids[i]).value;
+
+            if (i != vision_pid_ids.length - 1) {
+                data += ',';
+            }
+        }
+
+        return data;
+    }
+
+    // function wheelbase() {
+    //     sendNum('calc_wb', getElement('l_pow').value + ',' + getElement('r_pow').value + ',' + getElement('wb_dur').value);
+    // }
+    // function ffpCalibration() {
+    //     sendNum('calc_ffp', getElement('l_pow_ffp').value + ',' + getElement('r_pow_ffp').value + ',' + getElement('ffp_dur').value);
+    // }
+</script>

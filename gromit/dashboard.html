@@ -1,0 +1,127 @@
+---
+layout: dashboard
+robot: Gromit
+
+permalink: /gromit/
+---
+
+{% include dcu_js.html %}
+
+<div id="auto">
+    To be developed.
+</div>
+
+<div id="debug" style="padding: 24px;">
+    <div style="flex: 0 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 24px;">
+        <div>
+            <div style="text-align: center; font-size: 24pt; font-weight: bolder; margin-bottom: 12px;">
+                Four Bar
+            </div>
+            <div style="flex: 0 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); grid-gap: 12px; margin-bottom: 36px;">
+                <div onclick='buttonDown("fourbar_intake")' class="button navy squarish h150">
+                    <b>Four Bar</b>
+                    Cargo Intake
+                </div>
+                <div onclick='buttonDown("fourbar_rocket_low")' class="button royal squarish h150">
+                    <b>Four Bar</b>
+                    Rocket Low
+                </div>
+                <div onclick='buttonDown("fourbar_ship_low")' class="button_sapphire squarish h150">
+                    <b>Four Bar</b>
+                    Ship/Loading Low
+                </div>
+                <div onclick='buttonDown("fourbar_high")' class="button pacific squarish h150">
+                    <b>Four Bar</b>
+                    High
+                </div>
+            </div>
+
+            <div style="text-align: center; font-size: 24pt; font-weight: bolder; margin-bottom: 12px;">
+                Climber
+            </div>
+
+            <div style="flex: 0 0 auto; display: grid; grid-template-columns: repeat(1, 1fr); grid-gap: 12px; margin-bottom: 24px;">
+                <div onmousedown='buttonDown("rezero_backleg")' onmouseup='buttonUp("rezero_backleg")' class="button_sapphire squarish h150">
+                    <b>Rezero</b>
+                    Back Leg
+                </div>
+            </div>
+
+            <div style="text-align: center; font-size: 24pt; font-weight: bolder; margin-bottom: 12px;">
+                Computer Vision
+            </div>
+
+            <div style="flex: 0 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 12px; margin-bottom: 24px;">
+                <div onclick='buttonDown("simplecv")' class="button navy squarish h150">
+                    Simple CV Servo
+                </div>
+                <div onclick='buttonDown("limelight_led")' class="button royal squarish h150">
+                    Toggle LED
+                </div>
+                <div onclick='buttonDown("compute2D")' class="button royal squarish h150">
+                    Compute2D
+                </div>
+            </div>
+        </div>
+        <div>
+            <div style="text-align: center; font-size: 24pt; font-weight: bolder; margin-bottom: 12px;">
+                Lift
+            </div>
+            
+            <div style="flex: 0 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 12px; margin-bottom: 24px;">
+                <div onclick='buttonDown("lift_base")' class="button navy squarish h150">
+                    <b>Lift</b>
+                    Base
+                </div>
+                <div onclick='buttonDown("lift_loadship")' class="button royal squarish h150">
+                    <b>Lift</b>
+                    Cargo Ship/Loading Station
+                </div>
+            </div>
+
+            <div style="flex: 0 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 12px; margin-bottom: 24px;">
+                <div onmousedown='buttonDown("lift_up")' onmouseup='buttonUp("lift_up")' class="red button squarish h150">
+                    <b>Lift</b>
+                    Up
+                </div>
+                <div onmousedown='buttonDown("lift_down")' onmouseup='buttonUp("lift_down")' class="red button squarish h150">
+                    <b>Lift</b>
+                    Down
+                </div>
+            </div>
+            
+            <div style="flex: 0 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 12px; margin-bottom: 24px;">
+                <div onclick='buttonDown("lift_low")' class="button_sapphire squarish h150">
+                    <b>Lift</b>
+                    Rocket Low
+                </div>
+                <div onclick='buttonDown("lift_mid")' class="button royal squarish h150">
+                    <b>Lift</b>
+                    Rocket Mid
+                </div>
+                <div onclick='buttonDown("lift_top")' class="button navy squarish h150">
+                    <b>Lift</b>
+                    Rocket Top
+                </div>
+            </div>
+
+            <div style="text-align: center; font-size: 24pt; font-weight: bolder; margin-bottom: 12px;">
+                Drive
+            </div>
+
+            <div style="flex: 0 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); grid-gap: 12px; margin-bottom: 24px;">
+                <div onclick='buttonDown("arc_90_r_40")' class="button navy squarish h150">
+                    <b>Arc Turn</b>90deg, right, 40"
+                </div>
+                <div onclick='buttonDown("arc_90_r_30")' class="button navy squarish h150">
+                    <b>Arc Turn</b>90deg, right, 30"
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+</div>
+
+
+{% include dcu.html %}

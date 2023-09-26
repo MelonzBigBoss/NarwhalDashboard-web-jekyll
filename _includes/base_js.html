@@ -1,0 +1,355 @@
+<script>
+    var DISCONNECTED = 0;
+    var CONNECTING = 1;
+    var CONNECTED = 2;
+
+    var socket;
+    var state = DISCONNECTED;
+
+    var json;
+    
+    var updater = null;
+
+    var current_tab = "dashboard";
+
+    // Map of two-element arrays to string keys
+    // menuData.get("x")[0] returns the visibility of menu x
+    // menuData.get("x")[1] returns the data of menu x
+    var menuData = new Map();
+    var debugElements = new Map();
+
+    var sel_auto;
+    var sel_limelight;
+    var sel_pipeline;
+
+    var blink_counter = 0;
+
+    var recievedFirstJSON = false;
+  
+    function getElement(id) {
+        return document.getElementById(id);
+    }
+
+    function setNumber(id, decimal_places) {
+        getElement(id).innerText = Number(json[id]).toFixed(decimal_places);
+    }
+
+    function setInner(id, innerHTML) {
+        getElement(id).innerHTML = innerHTML;
+    }
+
+    function setTab(id) {
+
+        getElement(current_tab + '_tab').classList.remove('active');
+        getElement(current_tab).classList.add('invisible');
+
+        current_tab = id;
+
+        getElement(current_tab + '_tab').classList.add('active');
+        getElement(current_tab).classList.remove('invisible');
+    }
+
+    function toggleConnection() {
+        if (state == DISCONNECTED) {
+            connect();
+        }
+        else {
+            state = DISCONNECTED;
+
+            socket.close();
+            socket = null;
+        }
+    }
+
+    function changeState(state){
+        getElement('match_state').classList.remove('red');
+        getElement('match_state').classList.remove('green');
+        getElement('match_state').classList.remove('gold'); 
+        getElement('match_state').classList.remove('black');
+        getElement('match_state').classList.remove('blinking');
+
+        setInner("match_state_text", state);
+
+        if(state == "TELEOP") {
+            getElement('match_state').classList.add('green');
+        }else if(state == "AUTO") {
+            getElement('match_state').classList.add('gold');
+        }else if(state == "ENDGAME") {
+            getElement('match_state').classList.add('red');
+        }else if(state == "DISABLED"){
+            getElement('match_state').classList.add('black');
+            getElement('match_state').classList.add('blinking');
+        }
+    }
+
+    function toggleLimelights(button){
+        let limelights = menuData.get('limelight')[1];
+        for(let ind in limelights){
+            if(getElement("limelight_stream_"+ind) == null){
+               // make new stream window 
+            }
+            toggleCamConnection("http://"+limelights[ind]+".local:5800", "limelight_stream_"+ind, button);
+        }
+    }
+
+    function toggleCamConnection(address, streamID, button) {
+        if (getElement(streamID).style.display === "none") {
+            connectToCam(address, streamID, button);
+        } else {
+            disconnectCam(streamID, button);
+        }
+    }
+
+    function connectToCam(address, stream, button){
+        getElement(stream).style.display = "inline-block";
+        getElement(button).classList.remove('red');
+        getElement(button).classList.add('green');
+        setInner(button+"_text", 'Hide Camera Stream');
+        getElement(stream).src = address;
+    }
+
+    function disconnectCam(stream, button){
+        getElement(stream).style.display = "none";
+        getElement(button).classList.remove('green');
+        getElement(button).classList.add('red');
+        setInner(button+"_text", 'Show Camera Stream');
+        getElement(stream).src = '';
+    }
+
+    function connect() {
+        //socket = new WebSocket("ws:roborio-3128-frc.local:5800");
+        
+        //USE THIS IP IF YOU WANT TO CONNECT NARWHAL DASHBOARD TO WPILIB SIMULATION (when no robot to test)
+        //socket = new WebSocket("ws:localhost:5805");
+        
+        socket = new WebSocket("ws:10.6.96.2:5805");
+        //socket = new WebSocket("ws:roborio-3128-frc.local:5805");
+        
+        getElement('conn_button').classList.remove('red');
+        getElement('conn_button').classList.remove('green');
+        getElement('conn_button').classList.add('orange');
+        setInner('conn_button_text', 'Connecting...');
+        state = CONNECTING;
+
+        socket.onopen = function (event) {
+            console.log("Connected.")
+
+            getElement('conn_button').classList.remove('red');
+            getElement('conn_button').classList.remove('orange');
+            getElement('conn_button').classList.add('green');
+            setInner('conn_button_text', 'Connected');
+            state = CONNECTED;
+
+            getElement('cover').style.display = 'none';
+        };
+
+        socket.onmessage = function (event) {
+            json = JSON.parse(event.data);
+
+            // get menus and values 
+            // TODO: Do this better
+
+            if(!recievedFirstJSON) {
+
+                // first element is visibility, second element contains all data
+                menuData.set('auto', [false, json['auto']]);
+                // menuData.set('limelight',[false, json['limelight']]);
+                // menuData.set('pipeline',[false, json['pipeline']]);
+
+                // debug needs to be setup after normal menus
+                setup_menus();
+                menuData.set('debug',[false, new Map()]);
+
+                setupConstants(json['constants']);
+
+                recievedFirstJSON = true;
+            }
+
+            // console.log(json);
+            
+            if (updater != null) {
+                updater(json);
+            }
+        };
+
+        socket.onclose = function (event) {
+            // TODO: If disconnected by robot (i.e. not due to user manually clicking the connection button,
+            // automatically try to reconnect.)
+
+            // Reset variables and page elements using a page reload
+
+            document.location.reload();
+
+            state = DISCONNECTED;
+
+            getElement('conn_button').classList.remove('green');
+            getElement('conn_button').classList.remove('orange');
+            getElement('conn_button').classList.add('red');
+            setInner('conn_button_text', 'Disconnected');
+
+            getElement('selected_auto').innerHTML = "Not Connected."
+            getElement('selected_limelight').innerHTML = "Not Connected."
+            getElement('selected_pipeline').innerHTML = "Not Connected."
+
+            getElement("cover").style.display = 'block';
+
+            menuData = new Map();
+            debugElements = new Map();
+
+            recievedFirstJSON = false;
+        };
+    }
+
+    function addUpdater(u) {
+        updater = u;
+    }
+
+    function setup_menus() {
+
+        for(let menu of menuData.keys()){
+
+            let noneElement = getElement(menu+"_choice_none");
+
+            for (let i = 0; i < menuData.get(menu)[1].length; i++) {
+                var element = noneElement.cloneNode(true);
+
+                element.id = menu + "_choice_" + i;
+                element.setAttribute('onclick', "menu_select(\"" + menu + "\"," + i + ")");
+
+                element.innerHTML = menuData.get(menu)[1][i];
+
+                getElement(menu+"_list").appendChild(element);
+            }
+        }
+    }
+    
+    function createDebugElement(key) {
+        //Create Elements
+        let newElement = document.createElement("div");
+        let debugTitle = document.createElement("span");
+        let debugInfo = document.createElement("span");
+
+        //New Element Classes
+        newElement.classList.add("flexbox");
+        newElement.classList.add("sapphire");
+        newElement.classList.add("row");
+        newElement.classList.add("debug_info");
+
+        //Debug Title Class (includes all styling)
+        debugTitle.classList.add("debug_key");
+        debugTitle.innerHTML = key;
+
+        //Debug Information Class (including all styling)
+        debugInfo.classList.add("debug_value");
+
+        //Add Debug Title/Info to Element and add Element to Debug Panel
+        newElement.appendChild(debugTitle);
+        newElement.appendChild(debugInfo);
+        getElement("debug_list").appendChild(newElement);
+        debugElements.set(key, newElement);
+    }
+
+    function setupConstants(constantsVals) {
+        for(let key in constantsVals){
+            
+            let values = constantsVals[key];
+
+            // Create Elements
+            let list = document.createElement("div");
+            let constTitleBox = document.createElement("div");
+            let constTitle = document.createElement("span");
+
+            // Outer Box
+            list.classList.add("flexbox","royal","column","debug_list");
+            list.style.display = "block";
+
+            // Constants Title Class
+            constTitleBox.classList.add("flexbox","sapphire","row","debug_info","debug_section");
+            constTitle.classList.add("const_key");
+            constTitle.innerHTML = key;
+            constTitleBox.appendChild(constTitle);
+            list.appendChild(constTitleBox);
+
+            for(let val of values){
+                let constCont = document.createElement("div");
+                let constKey = document.createElement("span");
+                let constVal = document.createElement("span");
+
+                constCont.classList.add("flexbox","sapphire","row","debug_info");
+
+                constKey.classList.add("debug_key");
+                constKey.innerHTML = val['key'];
+
+                constVal.classList.add("debug_value");
+                constVal.addEventListener("input", function(){
+                    if(constVal.innerHTML.indexOf('/') != -1){
+                        constVal.innerHTML = constVal.innerHTML.replaceAll('/','');
+
+                        send("changeconstant:"+key+":"+constKey.innerHTML+":"+constVal.innerHTML);
+                    }
+                }, false);
+
+                constVal.innerHTML = val['value'];
+                constVal.contentEditable = "true";
+
+                constCont.append(constKey,constVal);
+
+                list.appendChild(constCont);
+            }
+
+            // Add Category to Constants Editor
+            getElement("constants_editor").appendChild(list);
+            debugElements.set(key, list);
+        }
+    }
+
+    function open_menu(menu){
+        getElement(menu + "_list").style.display = 'block';
+        menuData.get(menu)[0] = true;
+    }
+
+    function close_menu(menu){
+        getElement(menu + "_list").style.display = 'none';
+        menuData.get(menu)[0] = false;
+    }
+
+    function toggle_menu(menu){
+        if(!menuData.get(menu)[0]){
+            open_menu(menu);
+        }else{
+            close_menu(menu);
+        }
+    }
+
+    function menu_select(menu, i){
+        if (i == "-1") {
+            send("select" + menu + ":null");
+        } else {
+            send("select"+ menu +":" + menuData.get(menu)[1][Number(i)]);
+        }
+        close_menu(menu);
+    }
+
+    function buttonDown(name) {
+        send("button:" + name + ":down");
+    }
+
+    function buttonUp(name) {
+        send("button:" + name + ":up");
+    }
+
+    function send(string_data) {
+        if (state == CONNECTED) {
+            socket.send(string_data);
+            console.log("Sent \'" + string_data + "\'");
+        }
+        else {
+            console.log("Attempted to send \'" + string_data + "\'");
+        }
+    }
+
+    function sendNum(id, value) {
+        send('numData:' + id + ':' + value)
+    }
+
+</script>

@@ -1,0 +1,518 @@
+// Fonts
+@font-face {
+    font-family: 'Open Sans';
+    src: url('/assets/open-sans.ttf');
+}
+
+body {
+    font-family: 'Open Sans';
+}
+
+// Disconnected cover
+.cover {
+    background-color: black;
+
+    width: 100%;
+    height: 100%;
+    
+    display: block;
+    position: absolute;
+
+    opacity: 0.7;
+
+    z-index: 20;
+}
+
+// Container Magic (confirmed magic)
+.squash {
+    padding: 0px;
+    margin: 0px;
+}
+.thicc {
+    width: 100%;
+    height: 100%;
+}
+.flexbox {
+    display: flex;
+
+    &.row {
+        flex-direction: row;
+    }
+
+    &.column {
+        flex-direction: column;
+    }
+}
+
+// Backgrounded Thingies
+.white-black {
+    background: white;
+    color: black;
+    border: 3px solid black;
+}
+.navy {
+    background: $navy;
+    color: white;
+}
+.royal {
+    background: $royal;
+    color: white;
+}
+.sapphire {
+    background: $sapphire;
+    color: white;
+}
+.pacific {
+    background: $pacific;
+    color: white;
+}
+.red {
+    background: $red;
+    color: white;
+
+    &.deselected{
+        background: darken($red,       $darken-amount);
+        color: darken(white,       $darken-amount);
+    }
+}
+.orange {
+    background: $orange;
+    color: white;
+}
+.gold {
+    background: gold;
+    color: white;
+
+    &.deselected{
+        background: darken(gold,       $darken-amount);
+        color: darken(white,       $darken-amount);
+    }
+}
+.green {
+    background: $green;
+    color: white;
+
+    &.deselected{
+        background: darken($green,       $darken-amount);
+        color: darken(white,       $darken-amount);
+    }
+}
+.white {
+    background: white;
+    color: black;
+}
+.grey {
+    background: grey;
+    color: white;
+}
+.black {
+    background: black;
+    color: white;
+}
+
+
+// Buttons
+.button {
+    &:hover {
+        cursor: pointer;
+    }
+
+    &.squarish {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        text-align: right;
+        border-radius: 12px;
+        padding: 20px;
+        font-size: 22pt;
+
+        &.h150 {
+            height: 150px;
+        }
+
+        &.h100 {
+            height: 100px;
+        }
+
+        &.h200 {
+            height: 200px;
+        }
+    }
+
+    &.navy:hover {
+        background: darken($navy,       $darken-amount);
+    }
+    
+    &.royal:hover {
+        background: darken($royal,      $darken-amount);
+    }
+    
+    &.sapphire:hover {
+        background: darken($sapphire,   $darken-amount);
+    }
+    
+    &.pacific:hover {
+        background: darken($pacific,    $darken-amount);
+    }
+
+
+    &.red:hover {
+        background: darken($red,        $darken-amount);
+    }
+    
+    &.orange:hover {
+        background: darken($orange,     $darken-amount);
+    }
+    
+    &.green:hover {
+        background: darken($green,      $darken-amount);
+    }
+
+    &.grey:hover {
+        background: darken(grey,      $darken-amount);
+    }
+}
+
+input {
+    width: 100px;
+}
+
+// Tabs
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+ul.tab_bar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+ul.tab_bar li {
+    float: left;
+}
+
+ul.tab_bar li a {
+    display: block;
+    color: #666;
+    text-align: center;
+    padding: 8px 16px;
+}
+
+ul.tab_bar li a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+ul.tab_bar li a.active {
+    color: white;
+    background-color: #1b1464;
+}
+
+.invisible {
+    display: none;
+}
+
+input {
+    border: none;
+    background: #e9e9e9;
+    padding: 2px;
+} 
+
+.container {
+    color: white;
+    overflow: hidden;
+    background: #333;
+    border-radius: 12px;
+}
+
+.container_buttons {
+    justify-content: center;
+    flex-direction: row;
+    padding: 1vw;
+    align-content: center;
+    width: 100%;
+}
+
+.table_row {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.stream {
+    flex-basis: 50;
+    width: 100%;
+    margin: auto; 
+    margin-top: 10px; 
+    display: none;
+}
+
+.shooter_info {
+    width: 100%; 
+    flex: 0 0 auto;
+    margin-bottom: 12px;
+}
+.shooter_box {
+    margin-bottom: 0;
+}
+.shooter_title {
+    font-size: 32px; 
+    margin-top: 10px; 
+    margin-left: auto; 
+    margin-right: auto; 
+    margin-bottom: 0px;
+}
+.shooter_rpm_box {
+    align-items: center; 
+    justify-content: center; 
+    margin: 20px 10px 10px 10px; 
+    padding:5px; 
+    border-radius: 16px;
+}
+
+.auto_info {
+    align-items: strech; 
+    flex-grow: 0; 
+    margin: 25px 5px 0px 5px; 
+    padding: 12px; 
+    border-radius: 16px;
+}
+.auto_box {
+    display: flex;
+    flex-direction: column; 
+    color: white;
+    padding-bottom: 8px;
+    font-size: 14pt;
+}
+
+.auto_options {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.auto_title {
+    font-weight: 300; 
+    margin-right: 8px;
+}
+.auto_selected {
+    font-weight: 600; 
+    flex: 1 0 auto;
+}
+.auto_choose {
+    border-radius: 6px; 
+    padding: 4px; 
+    margin-left: 28px; 
+    margin-right: 14px;
+}
+
+#auto_list {
+    display: none;
+}
+.auto_choice_none {
+    margin: 0px; 
+    margin-bottom: 4px; 
+    padding: 8px; 
+    border-radius: 6px;
+}
+
+.debug_toggle {
+    justify-content: center; 
+    margin: 25px; 
+    margin-bottom: 0px; 
+    border-radius: 16px;
+}
+.debug_title {
+    font-size: 25; 
+    font-weight: 700; 
+    margin: 5px auto 5px auto;
+}
+
+.debug_panel {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: space-around;
+}
+
+.debug_list {
+    align-items: stretch; 
+    flex-grow: 0; 
+    margin: 15px 25px 0px 25px;
+    padding: 12px; 
+    border-radius: 20px; 
+    height: auto;
+    display: none;
+    font-size: 30px;
+}
+.debug_info {
+    align-items: center; 
+    min-width: 275px;
+    justify-content: space-around; 
+    margin: 0px 10px 0px 10px; 
+    padding:10px; 
+    height: fit-content; 
+}
+
+.debug_info:nth-of-type(even) {
+    background-color: $pacific;
+}
+
+.debug_section {
+    margin: 10px;
+    border-radius: 15px;
+    align-items: left; 
+    display: flex; 
+    justify-content: left;
+}
+.debug_key {
+    //width: 50%; 
+    text-align: center;
+    text-justify: left; 
+    font-weight: 650;
+    font-size: 25px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+}
+
+.const_key {
+    flex-basis: 33.33%;
+    @extend .debug_key;
+}
+
+.debug_value {
+    font-size: 25px;
+    //width: 50%; 
+    text-align: center;
+    text-justify: right; 
+    padding-left: 10px;
+}
+
+#range_bar {
+    background-image: url("/garrison/range_bar.png");
+    background-clip: content-box;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    min-height: 20px;
+
+    flex-grow: 1;
+
+    align-items: center; 
+    justify-content: center; 
+    margin: 0px 10px 10px 10px;
+}
+  
+.limelight_info {
+    flex: 0 1 100%; 
+    width: 100%;
+    align-items: stretch; 
+    padding: 16px; 
+    overflow: hidden;
+}
+
+.limelight_container {
+    text-align: center; 
+    flex: 0 0 auto; 
+    padding: 10px; 
+    margin-bottom: 10px; 
+    overflow: visible;
+}
+
+.conn_button {
+    width: 40%; 
+    border-radius: 6px; 
+    padding: 10px; 
+    padding-left: 14px; 
+    padding-right: 14px; 
+    margin-bottom: 10px; 
+    display: inline-block;
+}
+.conn_button_text {
+    font-size: 20; 
+    font-weight: 700;
+}
+
+.lime_pipe {
+    align-items: stretch; 
+    flex-grow: 0; 
+    margin: 12px; 
+    margin-bottom: 0px; 
+    padding: 12px; 
+    border-radius: 6px; 
+    display: inline-block;
+}
+.lime_pipe_div {
+    display: flex; 
+    align-items: center; 
+    flex-direction: row; 
+    color: white; 
+    font-size: 14pt;
+    margin-top: -5px; 
+    margin-bottom: -5px;
+}
+.lime_pipe_div_title {
+    font-size: 20; 
+    font-weight: 300; 
+    margin-right: 8px;
+}
+.lime_pipe_selected {
+    font-size: 20; 
+    font-weight: 600; 
+    flex: 1 0 auto;
+}
+.lime_pipe_menu {
+    margin-left: 10px; 
+    border-radius: 6px; 
+    padding: 4px; 
+    padding-left: 14px; 
+    padding-right: 14px;
+}
+.lime_pipe_list {
+    display: none; 
+    margin-top: 10px;
+}
+.lime_pipe_choice_none {
+    margin: 0px; 
+    margin-bottom: 4px; 
+    padding: 8px; 
+    border-radius: 6px;
+}
+  
+@mixin animate($animation,$duration,$method,$times){
+    animation: $animation $duration $method $times;
+}
+
+@mixin keyframes($name){
+    @keyframes #{$name}{
+        @content;
+    }
+}
+
+.blinking { 
+    border-radius: 6px;
+    outline-style: solid;
+    outline-width: 7px;
+    outline-color: red;
+    outline-offset: -7px;
+
+    @include keyframes(blink) {
+        0% { outline-style: solid; }
+        100% { outline-style: none; }
+      }
+
+    @include animate(blink, 1s, linear, infinite);
+}
+
+#field {
+    width: 70%;
+    border-style: visible;
+    border-width: 5px;
+    border-color: blue;
+}

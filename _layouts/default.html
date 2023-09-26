@@ -1,0 +1,24 @@
+<html>
+	<head>        
+        {% include head.html %}
+        
+
+        {% include base_js.html %}
+
+        {% include gauge_js.html %}
+
+
+        {% include robot_js.html %}
+    </head>
+    
+	<body onload="bodyLoad()" class="squash" style="background: #efefef;">
+        <div class="flexbox column squash" style="width: 100%;">
+			{% include header.html %}
+            
+            <div>
+                <div id="cover" class="cover"></div>
+                {{ content }}
+            </div>
+        </div>
+	</body>
+</html>

@@ -1,0 +1,53 @@
+- name: Guido
+  permalink: guido
+  tabs:
+   - name: Dashboard
+     id: dashboard
+   - name: Test Suite
+     id: test_suite
+   - name: PID Suite
+     id: pid
+- name: Cheems
+  permalink: cheems
+  tabs:
+   - name: Dashboard
+     id: dashboard
+   - name: Debug
+     id: debug
+   - name: Drive Calibration Utility
+     id: dcu
+- name: Gromit
+  permalink: gromit
+  tabs:
+   - name: Dashboard
+     id: dashboard
+   - name: Auto Builder
+     id: auto
+   - name: Debug
+     id: debug
+   - name: Drive Calibration Utility
+     id: dcu
+- name: GromitTab
+  permalink: gromittab
+  tabs:
+    - name: Dashboard
+      id: dashboard
+- name: Grogu
+  permalink: grogu
+  tabs:
+    - name: Dashboard
+      id: dashboard
+- name: Garrison
+  permalink: garrison
+  tabs:
+    - name: Dashboard
+      id: dashboard
+    - name: Debug
+      id: debug
+    - name: Field
+      id: poseTracker
+- name: ctrlz
+  permalink: ctrlz
+  tabs:
+    - name: Dashboard
+      id: dashboard

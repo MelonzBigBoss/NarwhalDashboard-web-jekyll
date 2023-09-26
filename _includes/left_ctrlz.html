@@ -1,0 +1,47 @@
+<link href = "/{{ page.robot }}/style.css" rel="stylesheet">
+<article> 
+    <div class="button-group" id="bgr">
+        <button type="button" class="gbutton" id="0"></button>
+        <button type="button" class="gbutton" id="1"></button>
+        <button type="button" class="gbutton" id="2"></button>
+        <button type="button" class="gbutton" id="3"></button>
+        <button type="button" class="gbutton " id="4"></button>
+        <button type="button" class="gbutton" id="5"></button>
+        <button type="button" class="gbutton" id="6" ></button>
+        <button type="button" class="gbutton" id="7"></button>
+        <button type="button" class="gbutton" id="8"></button>
+
+        <button type="button" class="gbutton cone" id="9"></button>
+        <button type="button" class="gbutton cube" id="10"></button>
+        <button type="button" class="gbutton cone" id="11"></button>
+        <button type="button" class="gbutton cone" id="12"></button>
+        <button type="button" class="gbutton cube" id="13"></button>
+        <button type="button" class="gbutton cone"id="14"></button>
+        <button type="button" class="gbutton cone"id="15"></button>
+        <button type="button" class="gbutton cube"id="16"></button>
+        <button type="button" class="gbutton cone"id="17"></button>
+
+        <button type="button" class="gbutton cone"id="18"></button>
+        <button type="button" class="gbutton cube"id="19"></button>
+        <button type="button" class="gbutton cone"id="20"></button>
+        <button type="button" class="gbutton cone"id="21"></button>
+        <button type="button" class="gbutton cube"id="22"></button>
+        <button type="button" class="gbutton cone"id="23"></button>
+        <button type="button" class="gbutton cone"id="24"></button>
+        <button type="button" class="gbutton cube"id="25"></button>
+        <button type="button" class="gbutton cone"id="26"></button>
+    </div>
+    <script> 
+        const buttons = document.querySelectorAll('.gbutton');
+        buttons.forEach((button)=> {
+            button.addEventListener('click', ()=> {
+                buttons.forEach((btn)=> {
+                    btn.classList.remove('active');
+                });
+                button.classList.add('active');
+                send("grid:" + parseInt(button.id))
+            });
+        });
+    </script>
+</article>
+
