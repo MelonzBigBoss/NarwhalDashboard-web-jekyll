@@ -10,3 +10,5 @@ A web-based dashboard, made in native HTML/CSS/JS and built using Jekyll, that c
 gem install jekyll bundler (in admin console)
 
 Run: bundle exec jekyll serve 
+
+Connect at localhost:4000
